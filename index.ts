@@ -6,12 +6,14 @@ import express, {
 import "dotenv";
 import passport from "passport";
 import session from "express-session";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
 import argon2id from "argon2";
 
 import prisma from "./utils/db";
 
 import { isLoggedIn } from "./utils/auth";
+import { request } from "http";
 
 const app = express();
 
@@ -29,13 +31,18 @@ app.use(
 			sameSite: "lax",
 			secure: process.env.NODE_ENV === "production",
 		},
+		store: new PrismaSessionStore(prisma, {
+			checkPeriod: 2 * 60 * 1000, //ms
+			dbRecordIdIsSessionId: true,
+			dbRecordIdFunction: undefined,
+		}),
 	})
 );
 app.use(passport.initialize());
 app.use(passport.session());
 
-
 app.get("/", (req: Request, res: Response) => {
+	console.log("home");
 	res.json({ message: "home" });
 });
 
@@ -50,12 +57,13 @@ app.post("/sign-up", async (req: Request, res: Response) => {
 				password: hashPassword,
 				defaultBreakTime: 10,
 				isAutoSession: false,
-			}
-		})
+			},
+		});
 		res.json({
 			message: newUser.username,
 		});
 	} catch (err) {
+		console.log(err);
 		res.status(400).send("error");
 	}
 });
@@ -69,6 +77,7 @@ app.post(
 );
 
 app.get("/api/dashboard", isLoggedIn, (req: Request, res: Response) => {
+	console.log("access granted");
 	res.json({ message: "access granted" });
 });
 
