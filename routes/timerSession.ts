@@ -1,11 +1,10 @@
-import { RecordWithTtl } from "dns";
 import { Router, Request, Response } from "express";
 
 import prisma from "../utils/db";
 
 export const router = Router();
 
-router.get("/timer-sessions", async (req: Request, res: Response) => {
+router.get("/timers", async (req: Request, res: Response) => {
 	console.log("Get Items: ", req.session, req.user);
 	try {
 		if (req.user) {
@@ -30,7 +29,7 @@ router.get("/timer-sessions", async (req: Request, res: Response) => {
 	}
 });
 
-router.post("/timer", async (req: Request, res: Response) => {
+router.post("/timers", async (req: Request, res: Response) => {
 	console.log(req.session, req.user);
 	const { username, memo, category, duration } = req.body;
 	try {
@@ -56,34 +55,6 @@ router.post("/timer", async (req: Request, res: Response) => {
 			},
 		});
 		res.send({ message: `${memo} saved` });
-	} catch (err) {
-		console.log(err);
-	}
-});
-
-router.post("/categories", async (req: Request, res: Response) => {
-	const { username, category, color } = req.body;
-	try {
-		const user = await prisma.user.findFirst({
-			where: {
-				username,
-			},
-			select: {
-				id: true,
-			},
-		});
-
-		if (!user) {
-			return res.json({ message: "no user found" });
-		}
-		await prisma.categoryType.create({
-			data: {
-				name: category,
-				color,
-				usernameId: user.id,
-			},
-		});
-		res.send({ message: `${category} saved` });
 	} catch (err) {
 		console.log(err);
 	}

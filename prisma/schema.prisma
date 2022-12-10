@@ -19,7 +19,7 @@ model User {
   isAutoSession    Boolean
   defaultBreakTime Int            @default(10)
   createdAt        DateTime       @default(now())
-  categoryTypes    CategoryType[]
+  categoryTypes    Category[]
 }
 
 model TimerSession {
@@ -32,7 +32,7 @@ model TimerSession {
   usernameId Int
 }
 
-model CategoryType {
+model Category {
   id           Int            @id @default(autoincrement())
   name         String
   color        Color          @default(BLACK)

@@ -39,3 +39,31 @@ router.post(
 		successRedirect: "/api/dashboard",
 	})
 );
+
+router.post("/categories", async (req: Request, res: Response) => {
+	const { username, category, color } = req.body;
+	try {
+		const user = await prisma.user.findFirst({
+			where: {
+				username,
+			},
+			select: {
+				id: true,
+			},
+		});
+
+		if (!user) {
+			return res.json({ message: "no user found" });
+		}
+		await prisma.categoryType.create({
+			data: {
+				name: category,
+				color,
+				usernameId: user.id,
+			},
+		});
+		res.send({ message: `${category} saved` });
+	} catch (err) {
+		console.log(err);
+	}
+});
