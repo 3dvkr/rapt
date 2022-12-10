@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int            @id @default(autoincrement())
+  username         String         @unique
+  email            String
+  password         String
+  timers           TimerSession[]
+  isAutoSession    Boolean
+  defaultBreakTime Int            @default(10)
+  createdAt        DateTime       @default(now())
+  categoryTypes    CategoryType[]
+}
+
+model TimerSession {
+  id         Int          @id @default(autoincrement())
+  category   CategoryType @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  memo       String
+  startTime  DateTime
+  duration   Int
+  username   User         @relation(fields: [usernameId], references: [id])
+  usernameId Int
+}
+
+model CategoryType {
+  id           Int            @id @default(autoincrement())
+  name         String
+  color        Color          @default(BLACK)
+  username     User           @relation(fields: [usernameId], references: [id])
+  usernameId   Int
+  TimerSession TimerSession[]
+}
+
+enum Color {
+  BLACK
+  RED
+  ORANGE
+  YELLOW
+  GREEN
+  BLUE
+  PURPLE
+}
