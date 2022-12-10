@@ -24,8 +24,7 @@ model User {
 
 model TimerSession {
   id         Int          @id @default(autoincrement())
-  category   CategoryType @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  category   String 
   memo       String
   startTime  DateTime
   duration   Int
@@ -39,7 +38,6 @@ model CategoryType {
   color        Color          @default(BLACK)
   username     User           @relation(fields: [usernameId], references: [id])
   usernameId   Int
-  TimerSession TimerSession[]
 }
 
 model Session {

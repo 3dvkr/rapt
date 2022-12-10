@@ -8,12 +8,11 @@ import passport from "passport";
 import session from "express-session";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
-import argon2id from "argon2";
-
 import prisma from "./utils/db";
 
 import { isLoggedIn } from "./utils/auth";
-import { request } from "http";
+import { router as userRoutes } from "./routes/user";
+import { router as timerRoutes } from "./routes/timerSession";
 
 const app = express();
 
@@ -42,39 +41,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req: Request, res: Response) => {
-	console.log("home");
 	res.json({ message: "home" });
 });
-
-app.post("/sign-up", async (req: Request, res: Response) => {
-	const { username, password, email } = req.body;
-	try {
-		const hashPassword = await argon2id.hash(password);
-		const newUser = await prisma.user.create({
-			data: {
-				username,
-				email: email || "test@email.com",
-				password: hashPassword,
-				defaultBreakTime: 10,
-				isAutoSession: false,
-			},
-		});
-		res.json({
-			message: newUser.username,
-		});
-	} catch (err) {
-		console.log(err);
-		res.status(400).send("error");
-	}
-});
-
-app.post(
-	"/login",
-	passport.authenticate("local", {
-		failureRedirect: "/api",
-		successRedirect: "/api/dashboard",
-	})
-);
+app.use("/api", userRoutes, [isLoggedIn, timerRoutes]);
 
 app.get("/api/dashboard", isLoggedIn, (req: Request, res: Response) => {
 	console.log("access granted");
