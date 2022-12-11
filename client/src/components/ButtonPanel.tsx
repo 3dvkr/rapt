@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useTimerStore } from "../store";
 
 export function ButtonPanel() {
-	const { isRunning, toggleIsRunning } = useTimerStore((state) => state);
+	const { isRunning, toggleIsRunning, reset } = useTimerStore((state) => state);
 
 	const fakeCategories = ["work", "reading", "coding", "break"];
 	const [category, setCategory] = useState(fakeCategories[0]);
@@ -14,12 +14,8 @@ export function ButtonPanel() {
 		toggleIsRunning();
 	};
 
-	const reset = (e: React.MouseEvent) => {
-		e.preventDefault();
-		console.log("reset");
-	};
 	return (
-		<form className="flex gap-3 md:grid md:grid-cols-5">
+		<div className="flex gap-3 md:grid md:grid-cols-5">
 			{fakeCategories.map((c, i) => {
 				return (
 					<button
@@ -49,7 +45,7 @@ export function ButtonPanel() {
 					</button>
 				)}
 			</div>
-		</form>
+		</div>
 	);
 }
 

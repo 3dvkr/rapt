@@ -8,6 +8,7 @@ interface TimerState {
 	decreaseMinutes: () => void;
 	toggleIsRunning: () => void;
 	countdown: () => void;
+	reset: () => void;
 }
 
 export const useTimerStore = create<TimerState>()((set) => ({
@@ -30,4 +31,5 @@ export const useTimerStore = create<TimerState>()((set) => ({
 				return { seconds: Math.max(state.seconds - 1, 0) };
 			}
 		}),
+	reset: () => set((state) => ({ minutes: 0, seconds: 0 })),
 }));
