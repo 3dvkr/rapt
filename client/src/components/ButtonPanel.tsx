@@ -1,13 +1,17 @@
 import React from "react";
 import { useState } from "react";
 
-export function ButtonPanel({ isRunning, setIsRunning }: Props) {
+import { useTimerStore } from "../store";
+
+export function ButtonPanel() {
+	const { isRunning, toggleIsRunning } = useTimerStore((state) => state);
+
 	const fakeCategories = ["work", "reading", "coding", "break"];
 	const [category, setCategory] = useState(fakeCategories[0]);
 
 	const runToggle = (e: React.MouseEvent) => {
 		e.preventDefault();
-		setIsRunning((prev) => !prev);
+		toggleIsRunning();
 	};
 
 	const reset = (e: React.MouseEvent) => {
@@ -32,20 +36,18 @@ export function ButtonPanel({ isRunning, setIsRunning }: Props) {
 					</button>
 				);
 			})}
-			<div className={`ml-auto  ${
-					isRunning && "btn-group"
-				}`}>
-			<button
-				className={`btn ${isRunning ? "btn-warning" : "btn-success"}`}
-				onClick={runToggle}
-			>
-				{isRunning ? "Pause" : "Start"}
-			</button>
-			{isRunning && (
-				<button className="btn top-0 right-0 rounded" onClick={reset}>
-					X
+			<div className={`ml-auto  ${isRunning && "btn-group"}`}>
+				<button
+					className={`btn ${isRunning ? "btn-warning" : "btn-success"}`}
+					onClick={runToggle}
+				>
+					{isRunning ? "Pause" : "Start"}
 				</button>
-			)}
+				{isRunning && (
+					<button className="btn top-0 right-0 rounded" onClick={reset}>
+						X
+					</button>
+				)}
 			</div>
 		</form>
 	);

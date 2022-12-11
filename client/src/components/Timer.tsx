@@ -1,14 +1,13 @@
-import { useState } from "react";
-
+import { useTimerStore } from "../store";
 import { Display } from "./Display";
-import {ButtonPanel} from "./ButtonPanel"
+import { ButtonPanel } from "./ButtonPanel";
 
 export function Timer() {
-	const [isRunning, setIsRunning] = useState(false);
+	const { isRunning, toggleIsRunning } = useTimerStore((state) => state);
 	return (
 		<div className="flex flex-col justify-around h-full">
-			<Display isRunning={isRunning} />
-			<ButtonPanel isRunning={isRunning} setIsRunning={setIsRunning} />
+			<Display />
+			<ButtonPanel />
 		</div>
 	);
 }
