@@ -10,7 +10,7 @@ export function Display() {
 				{seconds.toString().padStart(2, "0")}
 			</p>
 			<div className="flex md:flex-col md:col-start-5 justify-around pt-8 md:pt-0">
-				<button
+				<button disabled={isRunning && minutes !== 0 && seconds !== 0}
 					onClick={(e) => {
 						e.preventDefault();
 						increaseMinutes();
@@ -18,7 +18,7 @@ export function Display() {
 				>
 					Up
 				</button>
-				<button
+				<button disabled={isRunning && minutes !== 0 && seconds !== 0}
 					onClick={(e) => {
 						e.preventDefault();
 						decreaseMinutes();
