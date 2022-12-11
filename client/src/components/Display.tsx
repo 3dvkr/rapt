@@ -30,7 +30,3 @@ export function Display() {
 		</div>
 	);
 }
-
-interface Props {
-	isRunning: Boolean;
-}

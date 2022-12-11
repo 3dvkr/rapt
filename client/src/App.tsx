@@ -7,7 +7,11 @@ function App() {
 	const path = useLocation();
 	const [user, setUser] = useState(true);
 
-	const Layout = (
+	if (!user && path.pathname !== "/") {
+		return <Navigate to="/" />;
+	} 
+	
+	return (
 		<div className="container mx-auto flex flex-col h-screen">
 			<Header />
 			<div className="flex-grow">
@@ -16,11 +20,6 @@ function App() {
 			<Footer />
 		</div>
 	);
-	if (!user && path.pathname !== "/") {
-		return <Navigate to="/" />;
-	} else {
-		return Layout;
-	}
 }
 
 export default App;

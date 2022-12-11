@@ -9,11 +9,6 @@ export function ButtonPanel() {
 	const fakeCategories = ["work", "reading", "coding", "break"];
 	const [category, setCategory] = useState(fakeCategories[0]);
 
-	const runToggle = (e: React.MouseEvent) => {
-		e.preventDefault();
-		toggleIsRunning();
-	};
-
 	return (
 		<div className="flex gap-3 md:grid md:grid-cols-5">
 			{fakeCategories.map((c, i) => {
@@ -23,10 +18,7 @@ export function ButtonPanel() {
 						className={`flex gap-2 align-center btn ${
 							category === c ? "btn-accent" : "btn-ghost"
 						}`}
-						onClick={(e) => {
-							e.preventDefault();
-							setCategory(c);
-						}}
+						onClick={() => setCategory(c)}
 					>
 						{c}
 					</button>
@@ -35,7 +27,7 @@ export function ButtonPanel() {
 			<div className={`ml-auto  ${isRunning && "btn-group"}`}>
 				<button
 					className={`btn ${isRunning ? "btn-warning" : "btn-success"}`}
-					onClick={runToggle}
+					onClick={toggleIsRunning}
 				>
 					{isRunning ? "Pause" : "Start"}
 				</button>
@@ -47,9 +39,4 @@ export function ButtonPanel() {
 			</div>
 		</div>
 	);
-}
-
-interface Props {
-	isRunning: Boolean;
-	setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
 }
