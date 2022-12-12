@@ -13,6 +13,7 @@ import prisma from "./utils/db";
 import { isLoggedIn } from "./utils/auth";
 import { router as userRoutes } from "./routes/user";
 import { router as timerRoutes } from "./routes/timerSession";
+import { User } from "@prisma/client";
 
 const app = express();
 
@@ -46,8 +47,10 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api", userRoutes, [isLoggedIn, timerRoutes]);
 
 app.get("/api/dashboard", isLoggedIn, (req: Request, res: Response) => {
-	console.log("access granted");
-	res.json({ message: "access granted" });
+	console.log("access granted ", req.user);
+	if (req.user) {
+		res.json({ data: (req.user as User).username });
+	}
 });
 
 app.listen(4000, () => {

@@ -4,9 +4,13 @@ import App from "./App";
 import { Timer } from "./components/Timer";
 import { Dashboard } from "./components/Dashboard";
 import "./index.css";
-
+import {
+	QueryClient,
+	QueryClientProvider
+} from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -28,6 +32,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<React.StrictMode>
-		<RouterProvider router={router} />
+		<QueryClientProvider client={queryClient}>
+			<RouterProvider router={router} />
+		</QueryClientProvider>
 	</React.StrictMode>
 );
