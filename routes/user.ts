@@ -67,3 +67,14 @@ router.post("/categories", async (req: Request, res: Response) => {
 		console.log(err);
 	}
 });
+
+router.get("/logout", (req, res) => {
+	req.logout((err) => console.log(err));
+	req.session.destroy((err) => {
+		if (err) {
+			console.log(err);
+			res.status(400).send({ message: "error" });
+		}
+		res.status(200).send({ message: "logout" });
+	});
+});

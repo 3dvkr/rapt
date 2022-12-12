@@ -13,10 +13,6 @@ router.get("/timers", async (req: Request, res: Response) => {
 					// @ts-expect-error
 					usernameId: req.user.id,
 				},
-				select: {
-					startTime: false,
-					usernameId: false,
-				},
 			});
 			console.log(items);
 			res.send(items);
