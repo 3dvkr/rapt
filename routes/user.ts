@@ -32,12 +32,19 @@ router.get("/login", (req: Request, res: Response) => {
 	res.send("login page");
 });
 
-router.post(
-	"/login",
-	passport.authenticate("local", {
-		failureRedirect: "/api",
-		successRedirect: "/api/get-user",
-	})
+router.post("/login", (req, res, next) =>
+	passport.authenticate("local", (err, user, options) => {
+		if (err) {
+			next(err);
+		} else if (user) {
+			req.login(user, (err) => {
+				if (err) next(err)
+				else res.json({message: "logged in"})
+			})
+		} else {
+			res.status(400).json({ message: options?.message });
+		}
+	})(req, res, next)
 );
 
 router.post("/categories", async (req: Request, res: Response) => {

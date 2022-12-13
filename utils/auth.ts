@@ -13,18 +13,17 @@ import prisma from "./db";
  */
 passport.use(
 	new Strategy(
-		{ usernameField: 'username' },
+		{ usernameField: "username"},
 		async (username, password, done) => {
 			const user = await prisma.user.findUnique({ where: { username } });
-			const response = "Invalid login credentials";
-
-			if (!user) return done(response);
-			else if (user) {
+			if (!user) {
+				return done(null, false, {message: "User not found"});
+			} else if (user) {
 				const passMatch = await argon2id.verify(user.password, password);
 
 				if (passMatch) return done(null, user);
 
-				return done(response);
+				return done(null, false, {message: "Wrong password"});
 			}
 		}
 	)
@@ -59,5 +58,5 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 
 	// Consider showing either an error, or simply redirect the user to log in page
 	// res.status(401).json('You must be logged in to do this.');
-	res.status(401).send({message: "please log in"});
+	res.status(401).send({ message: "please log in" });
 };
