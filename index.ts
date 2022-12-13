@@ -44,14 +44,18 @@ app.use(passport.session());
 app.get("/", (req: Request, res: Response) => {
 	res.json({ message: "home" });
 });
-app.use("/api", userRoutes, [isLoggedIn, timerRoutes]);
 
-app.get("/api/dashboard", isLoggedIn, (req: Request, res: Response) => {
+app.get("/api/get-user", 
+// isLoggedIn, 
+(req: Request, res: Response) => {
 	console.log("access granted ", req.user);
 	if (req.user) {
-		res.json({ data: (req.user as User).username });
+		return res.json({ data: (req.user as User).username });
 	}
+	return res.json(null);
 });
+
+app.use("/api", userRoutes, [isLoggedIn, timerRoutes]); // this needs to run after api/get-user because the logout button doesn't work on the front end
 
 app.listen(4000, () => {
 	console.log("fridge running, ", 4000);

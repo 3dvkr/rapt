@@ -36,7 +36,7 @@ router.post(
 	"/login",
 	passport.authenticate("local", {
 		failureRedirect: "/api",
-		successRedirect: "/api/dashboard",
+		successRedirect: "/api/get-user",
 	})
 );
 
@@ -69,8 +69,7 @@ router.post("/categories", async (req: Request, res: Response) => {
 });
 
 router.get("/logout", (req, res) => {
-	req.logout((err) => console.log(err));
-	req.session.destroy((err) => {
+	req.logout((err) => {
 		if (err) {
 			console.log(err);
 			res.status(400).send({ message: "error" });
