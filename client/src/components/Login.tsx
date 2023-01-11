@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient, loginPath } from "../main";
@@ -31,7 +31,7 @@ export function Login() {
 			console.log({ data, error, errors });
 			queryClient.invalidateQueries({ queryKey: ["currentUser"] }).then(() => {
 				if (!error) {
-					navigate(loginPath + "/timer");
+					navigate("/" + loginPath + "/timer");
 				} else {
 					setErrors(error.message);
 				}
