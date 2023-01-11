@@ -7,11 +7,10 @@ export const router = Router();
 router.get("/timers", async (req: Request, res: Response) => {
 	console.log("Get Items: ", req.session, req.user);
 	try {
-		if (req.user) {
+		if (req.user && ('id' in req.user) && req.user.id) {
 			const items = await prisma.timerSession.findMany({
 				where: {
-					// @ts-expect-error
-					usernameId: req.user.id,
+					usernameId: req.user?.id
 				},
 			});
 			console.log(items);

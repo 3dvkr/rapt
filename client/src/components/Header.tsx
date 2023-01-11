@@ -1,34 +1,16 @@
 import { Link } from "react-router-dom";
-import {
-	useMutation,
-} from "@tanstack/react-query";
-import { queryClient } from "../main";
+import { useQuery } from "@tanstack/react-query";
+import { loginPath, queryClient } from "../main";
 export function Header() {
 	const {
-		mutate,
 		isLoading,
-		data: loginData,
-	} = useMutation({
-		mutationFn: (credentials: { username: string; password: string }) => {
-			return fetch("/api/login", {
-				body: JSON.stringify(credentials),
-				headers: {
-					"Content-Type": "application/json",
-				},
-				method: "POST",
-			});
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["currentUser"] });
-		},
+		error,
+		data: user,
+	} = useQuery({
+		queryKey: ["currentUser"],
+		queryFn: () => fetch("/api/get-user").then((res) => res.json()),
 	});
 
-	const loginHandler = () => {
-		mutate({
-			username: "test1",
-			password: "test1",
-		});
-	};
 	const logoutHandler = () => {
 		fetch("/api/logout", {
 			method: "GET",
@@ -36,13 +18,12 @@ export function Header() {
 			.then((res) => res.json())
 			.then(() => queryClient.invalidateQueries());
 	};
-	console.log({loginData})
 	return (
 		<header>
 			<nav className="navbar bg-base-100">
 				<div className="flex-1">
 					<Link
-						to={!loginData || isLoading ? "/" : "/timer"}
+						to={!user || isLoading ? "/" : loginPath + "/timer"}
 						className="btn btn-ghost normal-case text-xl"
 					>
 						Rapt
@@ -50,15 +31,26 @@ export function Header() {
 				</div>
 				<div className="flex-none">
 					<ul className="menu menu-horizontal px-1">
-						<li>
-							<button onClick={loginHandler}>Login</button>
-						</li>
-						<li>
-							<Link to="/dashboard">Dashboard</Link>
-						</li>
-						<li>
-							<button onClick={logoutHandler}>Logout</button>
-						</li>
+						{user && (
+							<li>
+								<Link to={loginPath + "/dashboard"}>Dashboard</Link>
+							</li>
+						)}
+						{!user && (
+							<>
+								<li>
+									<Link to="/sign-up">Sign up</Link>
+								</li>
+								<li>
+									<Link to="/login">Log in </Link>
+								</li>
+							</>
+						)}
+						{user && (
+							<li>
+								<button onClick={logoutHandler}>Logout</button>
+							</li>
+						)}
 					</ul>
 				</div>
 			</nav>

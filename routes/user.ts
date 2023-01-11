@@ -42,7 +42,7 @@ router.post("/login", (req, res, next) =>
 				else res.json({message: "logged in"})
 			})
 		} else {
-			res.status(400).json({ message: options?.message });
+			res.status(401).json({ message: options?.message });
 		}
 	})(req, res, next)
 );
