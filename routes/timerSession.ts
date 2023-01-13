@@ -25,10 +25,9 @@ router.get("/timers", async (req: Request, res: Response) => {
 });
 
 router.post("/timers", async (req: Request, res: Response) => {
-	console.log(req.session, req.user);
-	const { username, memo, category, duration } = req.body;
+	const { username, memo, category, duration, startTime } = req.body;
 	try {
-		const user = await prisma.user.findFirst({
+		const user = await prisma.user.findUnique({
 			where: {
 				username,
 			},
@@ -44,7 +43,7 @@ router.post("/timers", async (req: Request, res: Response) => {
 			data: {
 				duration,
 				memo,
-				startTime: new Date(),
+				startTime, 
 				category,
 				usernameId: user.id,
 			},
