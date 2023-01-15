@@ -28,7 +28,7 @@ export function SignUp() {
 		retry: 2,
 	});
 
-	const loginHandler = (e: FormEvent<HTMLFormElement>) => {
+	const signUpHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
 			console.log({password, confirmPassword})
@@ -44,7 +44,7 @@ export function SignUp() {
 	return (
 		<div className="card w-96 bg-base-100 shadow-xl mx-auto p-2">
 			<div className="card-body">
-				<form>
+				<form onSubmit={signUpHandler}>
 					<div className="form-control">
 						<label className="label">
 							<span className="label-text">Username</span>
@@ -101,6 +101,9 @@ export function SignUp() {
 							/>
 						</label>
 					</div>
+					<button className="btn btn-active btn-accent my-2 ml-auto">
+						Log in
+					</button>
 				</form>
 			</div>
 		</div>
