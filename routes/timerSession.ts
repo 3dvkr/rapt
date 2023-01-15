@@ -12,6 +12,9 @@ router.get("/timers", async (req: Request, res: Response) => {
 				where: {
 					usernameId: req.user?.id
 				},
+				select: {
+					category: true, memo: true, duration: true
+				}
 			});
 			console.log(items);
 			res.send(items);
