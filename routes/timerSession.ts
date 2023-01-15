@@ -13,7 +13,7 @@ router.get("/timers", async (req: Request, res: Response) => {
 					usernameId: req.user?.id
 				},
 				select: {
-					category: true, memo: true, duration: true
+					category: true, memo: true, duration: true, id: true
 				}
 			});
 			console.log(items);

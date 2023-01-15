@@ -20,9 +20,9 @@ export function Dashboard() {
 					{!isLoading && (
 						<>
 							{timers.map(
-								(t: { category: string; duration: string; memo: string }) => {
+								(t: { category: string; duration: number; memo: string, id:number }) => {
 									return (
-										<tr>
+										<tr key={t.id}>
 											<td>{t.category}</td>
 											<td>{t.duration}</td>
 											<td>{t.memo}</td>
