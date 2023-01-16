@@ -4,10 +4,10 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "npm run tsc && node build/index.js",
+		"start": "node dist/index.js",
 		"client": "npm run dev --prefix client",
 		"dev": "ts-node-dev index.ts",
-		"build": "npm install --prefix client && npm run build --prefix client"
+		"build": "npx tsc && npm install --prefix client && npm run build --prefix client"
 	},
 	"keywords": [],
 	"author": "",
