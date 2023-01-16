@@ -28,7 +28,6 @@ export function Login() {
 
 		onSettled: (data, e) => {
 			const error = e as { message: string };
-			console.log({ data, error, errors });
 			queryClient.invalidateQueries({ queryKey: ["currentUser"] }).then(() => {
 				if (!error) {
 					navigate("/" + loginPath + "/timer");
@@ -80,7 +79,7 @@ export function Login() {
 						</label>
 					</div>
 					{errors && <p>{errors}</p>}
-					<button className="btn btn-active btn-accent my-2 ml-auto">
+					<button className="btn btn-active btn-accent block my-2 ml-auto">
 						Log in
 					</button>
 				</form>

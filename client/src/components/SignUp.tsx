@@ -1,5 +1,5 @@
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { queryClient, loginPath } from "../main";
 export function SignUp() {
@@ -8,10 +8,12 @@ export function SignUp() {
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const navigate = useNavigate();
-	const {
-		mutate,
-	} = useMutation({
-		mutationFn: (credentials: { email: string, username: string; password: string }) => {
+	const { mutate } = useMutation({
+		mutationFn: (credentials: {
+			email: string;
+			username: string;
+			password: string;
+		}) => {
 			return fetch("/api/sign-up", {
 				body: JSON.stringify(credentials),
 				headers: {
@@ -31,8 +33,7 @@ export function SignUp() {
 	const signUpHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (password !== confirmPassword) {
-			console.log({password, confirmPassword})
-			return
+			return;
 		} else {
 			mutate({
 				email,
@@ -101,9 +102,12 @@ export function SignUp() {
 							/>
 						</label>
 					</div>
-					<button className="btn btn-active btn-accent my-2 ml-auto">
-						Log in
-					</button>
+					<div className="flex flex-col justify-center items-end mt-2">
+						<button className="btn btn-active btn-accent my-4">Sign up</button>
+						<Link to="/login" className="btn btn-outline btn-info my-2">
+							I already have an account.
+						</Link>
+					</div>
 				</form>
 			</div>
 		</div>
