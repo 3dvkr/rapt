@@ -1,11 +1,12 @@
 import express, {
 	type Request,
 	type Response,
-	type NextFunction,
 } from "express";
 import "dotenv";
 import passport from "passport";
 import session from "express-session";
+import path from "path";
+
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
 import prisma from "./utils/db";
@@ -19,6 +20,10 @@ const app = express();
 
 express.urlencoded({ extended: true });
 app.use(express.json());
+
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "client/dist")));
+}
 
 app.use(
 	session({
@@ -45,17 +50,23 @@ app.get("/", (req: Request, res: Response) => {
 	res.json({ message: "home" });
 });
 
-app.get("/api/get-user", 
-// isLoggedIn, 
-(req: Request, res: Response) => {
-	console.log("access granted ", req.user);
-	if (req.user) {
-		return res.json({ data: (req.user as User).username });
+app.get(
+	"/api/get-user",
+	(req: Request, res: Response) => {
+		if (req.user) {
+			return res.json({ data: (req.user as User).username });
+		}
+		return res.json(null);
 	}
-	return res.json(null);
-});
+);
 
 app.use("/api", userRoutes, [isLoggedIn, timerRoutes]); // this needs to run after api/get-user because the logout button doesn't work on the front end
+
+if (process.env.NODE_ENV === "production") {
+	app.get("*", (req, res) => {
+		res.sendFile(path.join(__dirname + "/client/public/index.html"));
+	});
+}
 
 app.listen(4000, () => {
 	console.log("fridge running, ", 4000);
