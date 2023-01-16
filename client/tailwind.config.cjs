@@ -11,7 +11,45 @@ module.exports = {
         '2xl': '6rem',
       },
     },
-		extend: {},
+	extend: {
+		animation: {
+		  text: 'text 5s ease infinite',
+		  motion: 'motion 1000ms ease-out forwards',
+		  "motion-far": 'motion-far 2000ms ease-out forwards 1000ms',
+		},
+		keyframes: {
+		  text: {
+			'0%': {
+			  'background-size': '200% 200%',
+			  'background-position': 'left center',
+			},
+			'100%': {
+			  'background-size': '200% 200%',
+			  'background-position': 'right center',
+			},
+		  },
+		  motion: {
+			'0%': {
+				opacity: '0%',
+			  transform: 'translateY(-0.5rem)',
+			},
+			'100%': {
+				opacity: '100%',
+			  transform: 'translateY(0rem)',
+			},
+		  },
+		  "motion-far": {
+			'0%': {
+				opacity: '0%',
+			  transform: 'translateY(-1rem)',
+			},
+			'100%': {
+				opacity: '100%',
+			  transform: 'translateY(0rem)',
+			},
+		  },
+		},
+	  },
 	},
 	plugins: [require("daisyui")],
 	daisyui: {

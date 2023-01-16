@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import { LandingPage } from "./components/LandingPage";
 import { SignUp } from "./components/SignUp";
 import { Login } from "./components/Login";
 import { Timer } from "./components/Timer";
@@ -13,9 +14,9 @@ import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
 export const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-		  refetchOnWindowFocus: false
+			refetchOnWindowFocus: false,
 		},
-	  },
+	},
 });
 export const loginPath = "app";
 const router = createBrowserRouter([
@@ -24,7 +25,10 @@ const router = createBrowserRouter([
 		element: <App />,
 		//   errorElement: <ErrorPage />,
 		children: [
-			{ index: true, element: <h1>landing page</h1> },
+			{
+				index: true,
+				element: <LandingPage />,
+			},
 			{ path: "/sign-up", element: <SignUp /> },
 			{ path: "/login", element: <Login /> },
 			{
