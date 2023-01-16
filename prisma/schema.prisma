@@ -19,7 +19,7 @@ model User {
   isAutoSession    Boolean
   defaultBreakTime Int            @default(10)
   createdAt        DateTime       @default(now())
-  categoryTypes    Category[]
+  // categoryTypes    Category[]
 }
 
 model TimerSession {
@@ -36,8 +36,8 @@ model Category {
   id           Int            @id @default(autoincrement())
   name         String
   color        Color          @default(BLACK)
-  username     User           @relation(fields: [usernameId], references: [id])
-  usernameId   Int
+  // username     User           @relation(fields: [usernameId], references: [id])
+  // usernameId   Int
 }
 
 model Session {
