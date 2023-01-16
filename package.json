@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "ts-node-dev index.ts"
+		"dev": "ts-node-dev index.ts",
+		"build": "npm install --prefix client && npm run build --prefix client"
 	},
 	"keywords": [],
 	"author": "",
