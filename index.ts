@@ -64,8 +64,7 @@ app.use("/api", userRoutes, [isLoggedIn, timerRoutes]); // this needs to run aft
 
 if (process.env.NODE_ENV === "production") {
 	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname, "../client/public/index.html"));
-		//path.join(__dirname, "../client/dist")
+		res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 	});
 }
 
