@@ -3,6 +3,8 @@ import create from "zustand";
 interface TimerState {
 	minutes: number;
 	seconds: number;
+	start: Date;
+	duration: number;
 	isRunning: boolean;
 	hasStarted: boolean;
 	increaseMinutes: () => void;
@@ -13,11 +15,14 @@ interface TimerState {
 	countdown: () => void;
 	reset: () => void;
 	canSubmit: boolean;
+	setSessionInfo: () => void;
 }
 
 export const useTimerStore = create<TimerState>()((set) => ({
 	minutes: 0,
 	seconds: 0,
+	start: new Date(),
+	duration: 0,
 	isRunning: false,
 	hasStarted: false,
 	canSubmit: false,
@@ -42,5 +47,9 @@ export const useTimerStore = create<TimerState>()((set) => ({
 	reset: () =>
 		set((state) => {
 			return { minutes: 0, seconds: 0, isRunning: false, hasStarted: false };
+		}),
+	setSessionInfo: () =>
+		set((state) => {
+			return { duration: state.minutes, start: new Date(), hasStarted: true };
 		}),
 }));

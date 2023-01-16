@@ -24,11 +24,10 @@ const formReducer: React.Reducer<FormState, FormAction> = (
 		default:
 			return prevState;
 	}
-	return { ...prevState };
 };
 
 const initFormState = {
-	memo: "cotton-candy",
+	memo: "",
 	category: "",
 	duration: 0,
 	startTime: new Date(),
@@ -36,12 +35,8 @@ const initFormState = {
 
 export function SessionSubmissionForm({
 	category,
-	duration,
-	startTime,
 }: {
 	category: string;
-	duration: number;
-	startTime: Date;
 }) {
 	const {
 		data: username,
@@ -49,12 +44,10 @@ export function SessionSubmissionForm({
 		queryKey: ["currentUser"],
 		queryFn: () => fetch("/api/get-user").then((res) => res.json()),
 	});
-	const { setCanSubmit } = useTimerStore((state) => state);
+	const { setCanSubmit, duration, start:startTime } = useTimerStore((state) => state);
 	const [state, dispatch] = useReducer(formReducer, initFormState);
 	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		console.log("form: ", state, { username });
-
 		setCanSubmit(false);
 	};
 

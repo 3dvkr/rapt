@@ -1,26 +1,27 @@
 import { useEffect, useState } from "react";
-
+import shallow from 'zustand/shallow'
 import { useTimerStore } from "../store";
-import { queryClient } from "../main";
 
 export function ButtonPanel({
 	category,
-	setDuration,
-	setStartTime,
 	setCategory,
 }: {
 	category: string;
-	setDuration: React.Dispatch<React.SetStateAction<number>>;
-	setStartTime: React.Dispatch<React.SetStateAction<Date>>;
 	setCategory: React.Dispatch<React.SetStateAction<string>>;
 }) {
-	const { minutes, isRunning, hasStarted, toggleIsRunning, reset } =
-		useTimerStore((state) => state);
+	const { isRunning, hasStarted, setSessionInfo, toggleIsRunning, reset } =
+		useTimerStore((state) => ({
+			isRunning: state.isRunning,
+			hasStarted: state.hasStarted,
+			setSessionInfo: state.setSessionInfo,
+			toggleIsRunning: state.toggleIsRunning,
+			reset: state.reset,
+		}), shallow);
 
 	const fakeCategories = ["work", "reading", "coding", "break"];
 	useEffect(() => {
 		setCategory(fakeCategories[0]);
-	}, [])
+	}, []);
 
 	return (
 		<div className="flex justify-between gap-3 sm:grid sm:grid-cols-5">
@@ -44,8 +45,7 @@ export function ButtonPanel({
 					className={`btn ${isRunning ? "btn-warning" : "btn-success w-full"}`}
 					onClick={() => {
 						if (!hasStarted) {
-							setDuration(minutes);
-							setStartTime(new Date());
+							setSessionInfo();
 						}
 						toggleIsRunning();
 					}}
