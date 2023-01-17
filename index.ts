@@ -34,7 +34,6 @@ app.use(
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day expiration
 			sameSite: "lax",
-			secure: true,
 		},
 		store: new PrismaSessionStore(prisma, {
 			checkPeriod: 2 * 60 * 1000, //ms
@@ -53,7 +52,6 @@ app.use(passport.session());
 app.get(
 	"/api/get-user",
 	(req: Request, res: Response) => {
-		console.log("get-user route: ", req.user, req.cookies)
 		if (req.user) {
 			return res.json({ data: (req.user as User).username });
 		}

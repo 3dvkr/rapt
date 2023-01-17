@@ -34,7 +34,6 @@ passport.use(
  * accesses the user object, resulting in data attached to the session. (Request.session.user)
  */
 passport.serializeUser((user, done) => {
-	console.log("serialize: ", { user });
 	done(null, (user as Prisma.UserSelect).id);
 });
 
@@ -45,7 +44,6 @@ passport.deserializeUser(async (id: number, done) => {
 	const user = await prisma.user.findUnique({
 		where: { id },
 	});
-	console.log("deserialize: ", { id, user });
 	if (!user) return done("No user to deserialize");
 
 	return done(null, user);
