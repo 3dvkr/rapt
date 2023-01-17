@@ -6,7 +6,7 @@ import "dotenv";
 import passport from "passport";
 import session from "express-session";
 import path from "path";
-
+import logger from "morgan";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
 import prisma from "./utils/db";
@@ -20,7 +20,7 @@ const app = express();
 
 express.urlencoded({ extended: true });
 app.use(express.json());
-
+app.use(logger("dev"))
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 }
@@ -33,8 +33,8 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day expiration
-			sameSite: "strict",
-			secure: process.env.NODE_ENV === "production",
+			// sameSite: "strict",
+			// secure: process.env.NODE_ENV === "production",
 		},
 		store: new PrismaSessionStore(prisma, {
 			checkPeriod: 2 * 60 * 1000, //ms
