@@ -22,7 +22,7 @@ express.urlencoded({ extended: true });
 app.use(express.json());
 
 if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "../client/dist")));
+	app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 }
 
 app.use(
@@ -33,8 +33,9 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day expiration
-			sameSite: "lax",
-			secure: process.env.NODE_ENV === "production",
+			sameSite: "none",
+			// secure: process.env.NODE_ENV === "production",
+			secure: false
 		},
 		store: new PrismaSessionStore(prisma, {
 			checkPeriod: 2 * 60 * 1000, //ms
@@ -64,7 +65,7 @@ app.use("/api", userRoutes, [isLoggedIn, timerRoutes]); // this needs to run aft
 
 if (process.env.NODE_ENV === "production") {
 	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+		res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
 	});
 }
 

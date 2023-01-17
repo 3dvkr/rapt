@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export function LandingPage() {
     return (
         <div
-            className="py-20 h-full grid"
+            className=" py-2 h-full grid"
             style={{
                 background: "linear-gradient(90deg, #667eea 0%, #764ba2 100%)",
             }}
