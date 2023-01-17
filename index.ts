@@ -70,5 +70,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(4000, () => {
-	console.log("fridge running, ", 4000);
+	console.log("fridge running test, ", 4000);
 });
