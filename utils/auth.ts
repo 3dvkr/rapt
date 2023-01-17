@@ -13,17 +13,17 @@ import prisma from "./db";
  */
 passport.use(
 	new Strategy(
-		{ usernameField: "username"},
+		{ usernameField: "username" },
 		async (username, password, done) => {
 			const user = await prisma.user.findUnique({ where: { username } });
 			if (!user) {
-				return done(null, false, {message: "User not found"});
+				return done(null, false, { message: "User not found" });
 			} else if (user) {
 				const passMatch = await argon2id.verify(user.password, password);
 
 				if (passMatch) return done(null, user);
 
-				return done(null, false, {message: "Wrong password"});
+				return done(null, false, { message: "Wrong password" });
 			}
 		}
 	)
@@ -34,6 +34,7 @@ passport.use(
  * accesses the user object, resulting in data attached to the session. (Request.session.user)
  */
 passport.serializeUser((user, done) => {
+	console.log("serialize: ", { user });
 	done(null, (user as Prisma.UserSelect).id);
 });
 
@@ -44,6 +45,7 @@ passport.deserializeUser(async (id: number, done) => {
 	const user = await prisma.user.findUnique({
 		where: { id },
 	});
+	console.log("deserialize: ", { id, user });
 	if (!user) return done("No user to deserialize");
 
 	return done(null, user);

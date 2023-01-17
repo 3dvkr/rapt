@@ -53,6 +53,7 @@ app.use(passport.session());
 app.get(
 	"/api/get-user",
 	(req: Request, res: Response) => {
+		console.log("get-user route: ", req.user, req.cookies)
 		if (req.user) {
 			return res.json({ data: (req.user as User).username });
 		}
