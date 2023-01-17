@@ -34,7 +34,7 @@ app.use(
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day expiration
 			sameSite: "lax",
-			// secure: process.env.NODE_ENV === "production",
+			secure: true,
 		},
 		store: new PrismaSessionStore(prisma, {
 			checkPeriod: 2 * 60 * 1000, //ms
