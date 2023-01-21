@@ -1,9 +1,7 @@
-import express, {
-	type Request,
-	type Response,
-} from "express";
+import express, { type Request, type Response } from "express";
 import "dotenv";
 import passport from "passport";
+import cors from "cors";
 import session from "express-session";
 import path from "path";
 
@@ -20,10 +18,7 @@ const app = express();
 
 express.urlencoded({ extended: true });
 app.use(express.json());
-
-if (process.env.NODE_ENV === "production") {
-	app.use(express.static(path.join(__dirname, "..", "client", "dist")));
-}
+app.use(cors())
 
 app.use(
 	session({
@@ -45,24 +40,16 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-app.get(
-	"/api/get-user",
-	(req: Request, res: Response) => {
-		if (req.user) {
-			return res.json({ data: (req.user as User).username });
-		}
-		return res.json(null);
+app.get("/api/get-user", (req: Request, res: Response) => {
+	if (req.user) {
+		return res.json({ data: (req.user as User).username });
 	}
-);
+	return res.json(null);
+});
 
 app.use("/api", userRoutes, [isLoggedIn, timerRoutes]); // this needs to run after api/get-user because the logout button doesn't work on the front end
 
-if (process.env.NODE_ENV === "production") {
-	app.get("*", (req, res) => {
-		res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"));
-	});
-}
+
 
 app.listen(4000, () => {
 	console.log("fridge running, ", 4000);
