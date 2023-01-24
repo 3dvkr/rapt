@@ -26,7 +26,7 @@ export function Display() {
 			</p>
 			<div className="flex justify-around gap-6 md:flex-col md:col-start-5 pt-8 md:pt-0">
 				<button
-					className="btn sm:h-16 flex-grow"
+					className="btn sm:h-16 w-1/3 sm:w-auto"
 					disabled={hasStarted}
 					onClick={(e) => {
 						e.preventDefault();
@@ -36,7 +36,7 @@ export function Display() {
 					Up
 				</button>
 				<button
-					className="btn sm:h-16 flex-grow"
+					className="btn sm:h-16 w-1/3 sm:w-auto"
 					disabled={hasStarted}
 					onClick={(e) => {
 						e.preventDefault();

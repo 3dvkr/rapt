@@ -10,7 +10,7 @@ export function Timer() {
 	return (
 		<div className="flex flex-col justify-around h-full">
 			<Display />
-			<div className="flex flex-col gap-4">
+			<div className="flex flex-col gap-4 my-4">
 				{canSubmit && <SessionSubmissionForm category={category} />}
 				<ButtonPanel category={category} setCategory={setCategory} />
 			</div>
