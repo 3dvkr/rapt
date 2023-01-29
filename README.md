@@ -1,6 +1,6 @@
 # Rapt
 
-Live site: https://rapt.onrender.com/
+Live site: https://rapt.up.railway.app
 
 ## Motivation
 
@@ -53,9 +53,10 @@ npx prisma db push
 
 6. Run `npm run dev` in the root for the server, and the `client` folder for the front end.
 
-## Optimizations
-- add data visualization to dashboard/summary
-- refactor mobile/small screen UI
-- add pagination for timer session logs
-- add filtering functionality for reviewing logs
-- create settings page to allow user experience customization
+## Optimizations and roadmap
+- [ ] add feature to edit sessions
+- [ ] add data visualization to dashboard/summary
+- [x] refactor mobile/small screen UI
+- [ ] add pagination for timer session logs
+- [x] add filtering functionality for reviewing logs
+- [ ] create settings page to allow user experience customization
