@@ -17,7 +17,7 @@ router.get("/timers", async (req: Request, res: Response) => {
 			});
 			res.send(items);
 		} else {
-			res.status(404).send({ message: "please log in" });
+			res.status(404).send(null);
 		}
 	} catch (err) {
 		console.log(err);

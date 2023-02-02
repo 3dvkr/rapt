@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { queryClient, loginPath } from "../main";
+import { queryClient } from "../main";
 export function SignUp() {
 	const [email, setEmail] = useState("");
 	const [username, setUsername] = useState("");
@@ -24,7 +24,7 @@ export function SignUp() {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["currentUser"] }).then(() => {
-				navigate("/" + loginPath + "/timer");
+				navigate("/login");
 			});
 		},
 		retry: 2,

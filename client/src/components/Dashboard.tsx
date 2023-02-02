@@ -1,11 +1,11 @@
-import { Navigate } from "react-router-dom";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
 export function Dashboard() {
 	const { isLoading, data: timers } = useQuery({
 		queryKey: ["timers"],
 		queryFn: () => fetch("/api/timers").then((res) => res.json()),
 	});
+
 	return (
 		<div className="overflow-x-auto">
 			<table className="table table-zebra w-full">
@@ -19,7 +19,7 @@ export function Dashboard() {
 				<tbody>
 					{!isLoading && (
 						<>
-							{timers.map(
+							{Array.isArray(timers) && timers.map(
 								(t: { category: string; duration: number; memo: string, id:number }) => {
 									return (
 										<tr key={t.id}>
