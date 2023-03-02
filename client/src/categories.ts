@@ -1,0 +1,1 @@
+export default ["work", "reading", "coding", "break"]

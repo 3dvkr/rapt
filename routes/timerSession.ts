@@ -5,7 +5,6 @@ import prisma from "../utils/db";
 export const router = Router();
 
 router.get("/timers", async (req: Request, res: Response) => {
-	// console.log("Get Items: ", req.session, req.user);
 	try {
 		if (req.user && ('id' in req.user) && req.user.id) {
 			const items = await prisma.timerSession.findMany({
@@ -16,7 +15,6 @@ router.get("/timers", async (req: Request, res: Response) => {
 					category: true, memo: true, duration: true, id: true
 				}
 			});
-			// console.log(items);
 			res.send(items);
 		} else {
 			res.status(404).send({ message: "please log in" });
