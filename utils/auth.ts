@@ -13,17 +13,17 @@ import prisma from "./db";
  */
 passport.use(
 	new Strategy(
-		{ usernameField: "username"},
+		{ usernameField: "username" },
 		async (username, password, done) => {
 			const user = await prisma.user.findUnique({ where: { username } });
 			if (!user) {
-				return done(null, false, {message: "User not found"});
+				return done(null, false, { message: "User not found" });
 			} else if (user) {
 				const passMatch = await argon2id.verify(user.password, password);
 
 				if (passMatch) return done(null, user);
 
-				return done(null, false, {message: "Wrong password"});
+				return done(null, false, { message: "Wrong password" });
 			}
 		}
 	)

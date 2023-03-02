@@ -33,18 +33,16 @@ const initFormState = {
 	startTime: new Date(),
 };
 
-export function SessionSubmissionForm({
-	category,
-}: {
-	category: string;
-}) {
-	const {
-		data: username,
-	} = useQuery({
+export function SessionSubmissionForm({ category }: { category: string }) {
+	const { data: username } = useQuery({
 		queryKey: ["currentUser"],
 		queryFn: () => fetch("/api/get-user").then((res) => res.json()),
 	});
-	const { setCanSubmit, duration, start:startTime } = useTimerStore((state) => state);
+	const {
+		setCanSubmit,
+		duration,
+		start: startTime,
+	} = useTimerStore((state) => state);
 	const [state, dispatch] = useReducer(formReducer, initFormState);
 	const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -87,11 +85,14 @@ export function SessionSubmissionForm({
 	};
 
 	return (
-		<form onSubmit={sessionSubmitHandler}>
-			<label>
-				Memo (optional): {}
+		<form className="form-control w-full grid grid-cols-5 gap-1 sm:gap-3" onSubmit={sessionSubmitHandler}>
+			<div className="input-group col-span-4">
+				<label htmlFor="memo" className="label bg-gray-600 px-4 text-white">Memo</label>
 				<input
 					type="text"
+					id="memo"
+					placeholder="(optional)"
+					className="input input-bordered w-full max-w-xs"
 					value={state.memo}
 					onChange={(e) =>
 						dispatch({
@@ -100,8 +101,8 @@ export function SessionSubmissionForm({
 						})
 					}
 				/>
-			</label>
-			<button>Submit</button>
+			</div>
+			<button className="btn col-start-5">Submit</button>
 		</form>
 	);
 }

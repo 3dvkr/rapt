@@ -6,7 +6,7 @@ import "dotenv";
 import passport from "passport";
 import session from "express-session";
 import path from "path";
-
+import logger from "morgan";
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
 
 import prisma from "./utils/db";
@@ -20,7 +20,7 @@ const app = express();
 
 express.urlencoded({ extended: true });
 app.use(express.json());
-
+app.use(logger("dev"))
 if (process.env.NODE_ENV === "production") {
 	app.use(express.static(path.join(__dirname, "..", "client", "dist")));
 }
@@ -65,5 +65,5 @@ if (process.env.NODE_ENV === "production") {
 }
 
 app.listen(4000, () => {
-	console.log("fridge running, ", 4000);
+	console.log("fridge running test, ", 4000);
 });
